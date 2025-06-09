@@ -1,6 +1,6 @@
 {
   "name": "@spinfoam/inexorable",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "React hooks for state management with deferred dispatching",
   "scripts": {
     "build": "npm run build:cjs && npm run build:esm && npm run build:types",
@@ -12,10 +12,16 @@
     "test": "vitest --run"
   },
   "keywords": [
-    "react",
+    "actions",
+    "deferred dispatching",
     "hooks",
+    "immer",
+    "react",
+    "reducer",
+    "scheduled",
+    "scheduled actions",
     "state management",
-    "deferred dispatching"
+    "state"
   ],
   "author": "Charles Berube",
   "license": "MIT",
