@@ -109,7 +109,7 @@ describe('useInexorable', () => {
     act(() => vi.advanceTimersByTime(99))
     expect(result.current.state.count).toBe(0)
 
-    act(() => vi.advanceTimersByTime(101))
+    act(() => vi.advanceTimersByTime(3))
     expect(result.current.state.count).toBe(1)
   })
 

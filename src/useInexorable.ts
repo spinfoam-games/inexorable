@@ -45,9 +45,9 @@ export function useInexorable<S, A = DefaultAction, C = Record<string, unknown>>
     if (typeof effectiveDelay === 'number') {
       time += effectiveDelay
     } else if ('afterPrevious' in effectiveDelay) {
-      time += previousActionTime.current + effectiveDelay.afterPrevious
+      time = previousActionTime.current + effectiveDelay.afterPrevious
     } else if ('afterLast' in effectiveDelay) {
-      time += lastActionTime.current + effectiveDelay.afterLast
+      time = lastActionTime.current + effectiveDelay.afterLast
     }
 
     const queueItem = {
@@ -58,6 +58,7 @@ export function useInexorable<S, A = DefaultAction, C = Record<string, unknown>>
 
     queue.current.enqueue(queueItem)
 
+    sequenceNumber.current += 1
     previousActionTime.current = time
     lastActionTime.current = time > lastActionTime.current
       ? time
