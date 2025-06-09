@@ -6,7 +6,7 @@ import type * as Preset from '@docusaurus/preset-classic'
 
 const config: Config = {
   title: 'Inexorable',
-  tagline: 'Dinosaurs are cool',
+  tagline: 'A React hook for state management with delayed dispatching',
   favicon: 'img/logo.svg',
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
@@ -15,10 +15,10 @@ const config: Config = {
   },
 
   // Set the production url of your site here
-  url: 'https://your-docusaurus-site.example.com',
+  url: 'https://spinfoam-games.github.io/inexorable/',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: '/',
+  baseUrl: '/inexorable/',
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.

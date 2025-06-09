@@ -1,6 +1,6 @@
 {
   "name": "@spinfoam/inexorable",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "React hooks for state management with deferred dispatching",
   "scripts": {
     "build": "npm run build:cjs && npm run build:esm && npm run build:types",
