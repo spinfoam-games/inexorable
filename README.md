@@ -6,7 +6,7 @@ Its key feature is support for delaying actions until some future time and (as a
 
 ## useInexorable
 
-The `useInexorable` hook requires two or three parameters: a reducer function, an initial state, and an optional context object (see below for details on the context object).
+The `useInexorable` hook requires two or three parameters: a reducer function, an initial state, and an optional context object (see below for details on the options object).
 
 It returns an object containing two properties: `state` and `dispatch`.
 
@@ -130,17 +130,28 @@ If you know you would like a particular action to be dispatched after all the ot
 
 This will cause the dispatch to be delayed until 1 second _after the last dispatch currently scheduled_.
 
+## Options
+
+The third argument to the `useInexorable` hook allows you to configure Inexorable. This is pretty minimal at the moment, but the options supported are:
+
+| Option   | Default | Purpose                                                                            |
+|----------|--------:|------------------------------------------------------------------------------------|
+| interval | 10      | Specify the target update rate for Inexorable.                                     |
+| context  | {}      | Provide a context object for use in your reducers. See below for more information. |
+
 ## Context Object
 
-Inexorable always provides a `context` argument to the reducer in order to contain the `dispatch` function, but you may also attach additional information to the context by providing it to the `useInexorable` hook as the third argument.
+Inexorable always provides a `context` argument to the reducer in order to contain the `dispatch` function, but you may also attach additional information to the context by providing it to the `useInexorable` hook in the third argument.
 
 ```javascript
 const { state, dispatch } = useInexorable(
   reducer,
   initialState,
   {
-    getRandomId: () => { /*... maybe call nanoid ...*/ },
-    getRandomInteger: () => { /*... something, something, Math.random() ...*/ }
+    context: {
+      getRandomId: () => { /*... maybe call nanoid ...*/ },
+      getRandomInteger: () => { /*... something, something, Math.random() ...*/ }
+    }
   }
 )
 ```
@@ -151,7 +162,7 @@ This can be useful if you have services that require a bit of up-front configura
 
 Inexorable works by wrapping a `useImmerReducer` hook and providing a `dispatch` function that _either_ calls the underlying dispatch from `useImmerReducer` (in the case of dispatches that require no delay) _or_ adds the requested action to a priority queue.
 
-To process the queue Inexorable relies on a `setInterval` call which runs it's own internal `tick` function as quickly as the JS runtime will allow. (It currently requests a 1ms interval, but in practice this will more likely be on the order of 100ms.)
+To process the queue Inexorable relies on a `setInterval` call which runs it's own internal `tick` function as quickly as the JS runtime will allow. (By default it requests a 10ms interval, but in practice this will more likely be on the order of 100ms.)
 
 Each tick updates Inexorables internal clock and then dispatches all the actions in the queue that have a scheduled dispatch time that is in the past (or exactly now).
 

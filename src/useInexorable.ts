@@ -18,6 +18,7 @@ export function useInexorable<S, A = DefaultAction, C = Record<string, unknown>>
   options?: InexorableOptions<C>
 ): UseInexorableReturn<S, A> {
   const context = options?.context ?? {}
+  const interval = options?.interval ?? 10
 
   const queue = useRef(new PriorityQueue<InexorableQueueItem<A>>(compareActions))
 
@@ -80,7 +81,11 @@ export function useInexorable<S, A = DefaultAction, C = Record<string, unknown>>
 
   // Tick function
   const tick = () => {
+    internalTime.current += interval
+
     let nextAction = queue.current.front()
+
+    console.log('Tick', nextAction, internalTime.current)
 
     while (nextAction && nextAction.time <= internalTime.current) {
       queue.current.dequeue()
@@ -90,13 +95,15 @@ export function useInexorable<S, A = DefaultAction, C = Record<string, unknown>>
       nextAction = queue.current.front()
     }
 
-    internalTime.current += Date.now() - lastTickTime.current
+    internalTime.current += Math.max(0, Date.now() - lastTickTime.current - interval)
     lastTickTime.current = Date.now()
   }
 
   useEffect(() => {
     if (!tickTimer.current) {
-      tickTimer.current = setInterval(tick, 1)
+      console.log('Starting tick timer', interval)
+      tickTimer.current = setInterval(tick, interval)
+      internalTime.current = 10
     }
 
     return () => {

@@ -29,6 +29,7 @@ export interface UseInexorableReturn<S, A> {
 
 export type InexorableOptions<C> = {
   context: C
+  interval?: number
 }
 
 export type InexorableQueueDetails = {

@@ -76,7 +76,7 @@ describe('useInexorable', () => {
     act(() => {
       result.current.dispatch({ type: 'enqueueNow' })
     })
-    act(() => vi.advanceTimersByTime(1))
+    act(() => vi.advanceTimersByTime(10))
 
     expect(result.current.state.count).toBe(1)
   })
@@ -86,14 +86,14 @@ describe('useInexorable', () => {
       useInexorable(testReducer, { count: 0, log: [] })
     )
     act(() => {
-      result.current.dispatch({ type: 'increment' }, 100)
+      result.current.dispatch({ type: 'increment' }, 101)
     })
     expect(result.current.state.count).toBe(0)
 
-    act(() => vi.advanceTimersByTime(99))
+    act(() => vi.advanceTimersByTime(100))
     expect(result.current.state.count).toBe(0)
 
-    act(() => vi.advanceTimersByTime(3))
+    act(() => vi.advanceTimersByTime(10))
     expect(result.current.state.count).toBe(1)
   })
 
@@ -102,14 +102,14 @@ describe('useInexorable', () => {
       useInexorable(testReducer, { count: 0, log: [] })
     )
     act(() => {
-      result.current.dispatch({ type: 'enqueueIncrement', delay: 100 })
+      result.current.dispatch({ type: 'enqueueIncrement', delay: 101 })
     })
     expect(result.current.state.count).toBe(0)
 
-    act(() => vi.advanceTimersByTime(99))
+    act(() => vi.advanceTimersByTime(100))
     expect(result.current.state.count).toBe(0)
 
-    act(() => vi.advanceTimersByTime(3))
+    act(() => vi.advanceTimersByTime(10))
     expect(result.current.state.count).toBe(1)
   })
 
@@ -123,7 +123,7 @@ describe('useInexorable', () => {
     })
     expect(result.current.state.log).toEqual([])
 
-    act(() => vi.advanceTimersByTime(101))
+    act(() => vi.advanceTimersByTime(110))
     expect(result.current.state.log).toEqual(['beta', 'alpha'])
   })
 
@@ -137,7 +137,7 @@ describe('useInexorable', () => {
     })
     expect(result.current.state.log).toEqual([])
 
-    act(() => vi.advanceTimersByTime(101))
+    act(() => vi.advanceTimersByTime(110))
     expect(result.current.state.log).toEqual(['first', 'second'])
   })
 
@@ -151,13 +151,13 @@ describe('useInexorable', () => {
     })
     expect(result.current.state.log).toEqual([])
 
-    act(() => vi.advanceTimersByTime(301))
+    act(() => vi.advanceTimersByTime(300))
+    expect(result.current.state.log).toEqual(['first'])
+
+    act(() => vi.advanceTimersByTime(40))
     expect(result.current.state.log).toEqual(['first'])
 
     act(() => vi.advanceTimersByTime(10))
-    expect(result.current.state.log).toEqual(['first'])
-
-    act(() => vi.advanceTimersByTime(41))
     expect(result.current.state.log).toEqual(['first', 'second'])
   })
 
@@ -173,16 +173,16 @@ describe('useInexorable', () => {
     })
     expect(result.current.state.log).toEqual([])
 
-    act(() => vi.advanceTimersByTime(301))
+    act(() => vi.advanceTimersByTime(300))
     expect(result.current.state.log).toEqual(['first'])
 
-    act(() => vi.advanceTimersByTime(201))
+    act(() => vi.advanceTimersByTime(200))
     expect(result.current.state.log).toEqual(['first', 'second'])
 
-    act(() => vi.advanceTimersByTime(101))
+    act(() => vi.advanceTimersByTime(100))
     expect(result.current.state.log).toEqual(['first', 'second', 'third'])
 
-    act(() => vi.advanceTimersByTime(51))
+    act(() => vi.advanceTimersByTime(50))
     expect(result.current.state.log).toEqual(['first', 'second', 'third', 'fourth'])
   })
 })
